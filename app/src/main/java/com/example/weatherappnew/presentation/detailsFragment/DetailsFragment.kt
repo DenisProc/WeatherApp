@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.weatherappnew.databinding.FragmentDetailsBinding
+import com.example.weatherappnew.domain.Weather
 
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
@@ -22,6 +23,12 @@ class DetailsFragment : Fragment() {
         fun newInstance() = DetailsFragment()
     }
 
-    private fun initDetails()= with(binding){
+    private fun initDetails(weather: Weather?)= with(binding){
+        val coords ="${weather?.city?.lat}/${weather?.city?.lon}"
+        detailsCityName.text = weather?.city?.cityName
+        detailsCoordinates.text = coords
+        detailsTemperature.text = weather?.temperature
+        detailsFeelsLike.text = weather?.felt
+
     }
 }
