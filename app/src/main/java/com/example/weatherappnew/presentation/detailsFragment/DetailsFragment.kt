@@ -6,16 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.weatherappnew.databinding.FragmentDetailsBinding
+import com.example.weatherappnew.domain.City
 import com.example.weatherappnew.domain.Weather
 
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
+    private val viewModel = DetailsFragmentViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding= FragmentDetailsBinding.inflate(inflater)
+        initDetails(viewModel.getCityWeather())
         return binding.root
     }
 
