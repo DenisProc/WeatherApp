@@ -1,4 +1,4 @@
 package com.example.weatherappnew.presentation.mainFragment
 
-class MainFragmentViewModel {
+class CitiesFragmentViewModel {
 }
