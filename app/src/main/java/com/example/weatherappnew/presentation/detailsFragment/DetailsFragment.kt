@@ -18,10 +18,10 @@ class DetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding= FragmentDetailsBinding.inflate(inflater)
         val viewModel = ViewModelProvider(this)[DetailsFragmentViewModel::class.java]
-        val observer = Observer<AppState> { state -> toast(state) }
+        val observer = Observer<AppState> { appState -> getState(appState) }
         viewModel.getState()
         viewModel.getData().observe(viewLifecycleOwner,observer)
 
@@ -34,8 +34,8 @@ class DetailsFragment : Fragment() {
         fun newInstance() = DetailsFragment()
     }
 
-    private fun toast(state: AppState)= with(binding){
-        when(state){
+    private fun getState(appState: AppState)= with(binding){
+        when(appState){
             AppState.Error -> {binding.loadingLayuot.visibility = View.GONE
                                 binding.progressBar.visibility = View.GONE
                                 binding.reloadingBtn.visibility = View.GONE
