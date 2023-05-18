@@ -5,9 +5,9 @@ import com.example.weatherappnew.domain.Weather
 import com.example.weatherappnew.domain.WeatherRepository
 
 class WeatherRepositoryImpl:WeatherRepository {
-    private val city = City()
-    private val weather = Weather(city)
-    override fun getWeather():Weather {
-        return weather
+    private val weather = Weather()
+    private val city = City(weather)
+    override fun getCityWeather():City {
+        return city
     }
 }

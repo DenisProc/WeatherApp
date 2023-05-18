@@ -26,12 +26,12 @@ class DetailsFragment : Fragment() {
         fun newInstance() = DetailsFragment()
     }
 
-    private fun initDetails(weather: Weather?)= with(binding){
-        val coords ="${weather?.city?.lat}/${weather?.city?.lon}"
-        detailsCityName.text = weather?.city?.cityName
+    private fun initDetails(city: City?)= with(binding){
+        val coords ="${city?.lat}/${city?.lon}"
+        detailsCityName.text = city?.cityName
         detailsCoordinates.text = coords
-        detailsTemperature.text = weather?.temperature
-        detailsFeelsLike.text = weather?.felt
+        detailsTemperature.text = city?.weather?.temperature
+        detailsFeelsLike.text = city?.weather?.felt
 
     }
 }
