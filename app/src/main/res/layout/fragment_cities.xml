@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.mainFragment.CitiesFragment">
+    tools:context=".presentation.cityListFragment.CityListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/weather_list_recycler"
