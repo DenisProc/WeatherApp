@@ -11,19 +11,27 @@ import com.example.weatherappnew.domain.WeatherRepository
 class DetailsFragmentViewModel:ViewModel() {
     private val repository: WeatherRepository = WeatherRepositoryImpl()
 
-    private val liveData: MutableLiveData<AppState> = MutableLiveData()
+    private val appStateData: MutableLiveData<AppState> = MutableLiveData()
+    private val cityDetailsData: MutableLiveData<City> = MutableLiveData()
 
     fun getData(): LiveData<AppState> {
-        return liveData
+        return appStateData
+    }
+    fun getCityDetails(): LiveData<City>{
+        return cityDetailsData
     }
     fun getState() {
         when ((0..2).random()){
-            0-> liveData.postValue(AppState.Error)
-            1-> liveData.postValue(AppState.Success)
-            2-> liveData.postValue(AppState.Loading)}
+            0-> appStateData.postValue(AppState.Error)
+            1-> appStateData.postValue(AppState.Success)
+            2-> appStateData.postValue(AppState.Loading)}
     }
 
-    fun getCityWeather():City{
-        return repository.getCityWeather()
+    suspend fun getCityWeather(city: City){
+           cityDetailsData.postValue(repository.getCityWeather(city))
+    }
+
+    fun getCity():City?{
+        return repository.getCity()
     }
 }

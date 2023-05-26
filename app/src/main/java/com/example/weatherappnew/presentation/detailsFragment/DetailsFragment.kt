@@ -11,9 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.weatherappnew.databinding.FragmentDetailsBinding
 import com.example.weatherappnew.domain.AppState
 import com.example.weatherappnew.domain.City
+import com.example.weatherappnew.domain.Weather
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
+    var defaultCity:City = City(Weather())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,12 +26,17 @@ class DetailsFragment : Fragment() {
     ): View {
         binding= FragmentDetailsBinding.inflate(inflater)
         val viewModel = ViewModelProvider(this)[DetailsFragmentViewModel::class.java]
-        val observer = Observer<AppState> { appState -> getState(appState) }
-        viewModel.getState()
-        viewModel.getData().observe(viewLifecycleOwner,observer)
+        val stateObserver = Observer<AppState> { appState -> getState(appState) }
+        val weatherObserver = Observer<City> {initDetails(viewModel)}
+
+        //viewModel.getState()
+        //viewModel.getData().observe(viewLifecycleOwner,stateObserver)
+
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.getCityWeather(defaultCity) }
+        viewModel.getCityDetails().observe(viewLifecycleOwner,weatherObserver)
 
 
-        initDetails(viewModel.getCityWeather(),viewModel)
         return binding.root
     }
 
@@ -48,13 +58,10 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun initDetails(city: City?,viewModel: DetailsFragmentViewModel)= with(binding){
-        val coords ="${city?.lat}/${city?.lon}"
-        detailsCityName.text = city?.cityName
-        detailsCoordinates.text = coords
-        detailsTemperature.text = city?.weather?.temperature
-        detailsFeelsLike.text = city?.weather?.felt
-        reloadingBtn.setOnClickListener { viewModel.getState() }
-
-    }
+    private fun initDetails(viewModel: DetailsFragmentViewModel)= with(binding){
+            detailsCityName.text = viewModel.getCity()?.cityName
+            detailsCoordinates.text = "${viewModel.getCity()?.lat}/${viewModel.getCity()?.lon}"
+            detailsTemperature.text = viewModel.getCity()?.weather?.temperature
+            detailsFeelsLike.text = viewModel.getCity()?.weather?.felt
+            reloadingBtn.setOnClickListener { viewModel.getState() }}
 }

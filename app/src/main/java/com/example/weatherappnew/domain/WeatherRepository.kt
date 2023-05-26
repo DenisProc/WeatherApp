@@ -1,6 +1,7 @@
 package com.example.weatherappnew.domain
 
 interface WeatherRepository {
-    fun getCityWeather(): City
+    suspend fun getCityWeather(city: City):City
+    fun getCity():City?
 
 }
